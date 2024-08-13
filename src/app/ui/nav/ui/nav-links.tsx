@@ -31,7 +31,7 @@ export default function NavLinks() {
                         onMouseEnter={() => setActiveLink(link.href)}
                         onMouseLeave={() => setActiveLink(pathname)}
                         className={clsx(
-                            "text-[#1F2937] text-[16px] relative inline-block before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-[1.5px] before:bg-[#1F2937] before:rounded-[3px] before:transition-all before:duration-300 navLink",
+                            "text-[#1F2937] font-medium text-[16px] relative inline-block before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-[1.5px] before:bg-[#1F2937] before:rounded-[3px] before:transition-all before:duration-300 navLink",
                             {
                                 "before:w-full": activeLink === link.href,
                                 "before:w-0": activeLink !== link.href,
