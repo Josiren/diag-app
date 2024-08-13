@@ -49,8 +49,7 @@ export default function Order() {
         setModalOpen(false);
         const $scrollableElement = document.querySelector('body');
         enablePageScroll($scrollableElement);
-        setIsButtonDisabled(true);
-        setTimeout(() => setIsButtonDisabled(false), 200);
+        setIsButtonDisabled(false);
     };
 
     return (
