@@ -2,16 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import IMask from 'imask';
-import { disablePageScroll, enablePageScroll } from 'scroll-lock';
-
 import ModalOrder from "@/app/ui/pages/home/ui/modalorder";
+import { Button, useDisclosure } from "@nextui-org/react";
 
 export default function Order() {
-    const [isModalOpen, setModalOpen] = useState(false);
     const [phone, setPhone] = useState('');
     const [alertMessage, setAlertMessage] = useState('');
     const [isPhoneValid, setIsPhoneValid] = useState(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
         const phoneInput = document.getElementById('phone-mask');
@@ -34,23 +33,20 @@ export default function Order() {
         });
     }, []);
 
-    const handleOpenModal = () => {
-        if (!isPhoneValid) {
-            setAlertMessage('Пожалуйста, введите полный номер телефона.');
-            return;
-        }
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Enter' && !isButtonDisabled) {
+                event.preventDefault();
+                onOpen();
+            }
+        };
 
-        setModalOpen(true);
-        const $scrollableElement = document.querySelector('body');
-        disablePageScroll($scrollableElement);
-    };
+        window.addEventListener('keydown', handleKeyDown);
 
-    const handleCloseModal = () => {
-        setModalOpen(false);
-        const $scrollableElement = document.querySelector('body');
-        enablePageScroll($scrollableElement);
-        setIsButtonDisabled(false);
-    };
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isButtonDisabled, onOpen]);
 
     return (
         <section className="flex flex-col m-auto max-w-[1240px] h-[689px] justify-center">
@@ -87,8 +83,8 @@ export default function Order() {
                         onChange={(e) => setPhone(e.target.value)}
                     />
                     <button
+                        onClick={onOpen}
                         type="button"
-                        onClick={handleOpenModal}
                         disabled={isButtonDisabled}
                         className={`w-full h-[47px] mt-[53px] text-center text-[#102B4E] rounded-[10px] border-transparent
                          transition-all duration-300 
@@ -97,10 +93,9 @@ export default function Order() {
                     >
                         Записаться
                     </button>
+                    <ModalOrder isOpen={isOpen} onClose={onClose} />
                 </form>
             </div>
-
-            <ModalOrder isOpen={isModalOpen} onClose={handleCloseModal} />
         </section>
     );
 }
