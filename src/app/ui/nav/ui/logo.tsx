@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { montserrat } from "@/app/ui/fonts";
 import Link from "next/link";
+import LogoIcon from "@icons/header/LogoIcon";
 
 export default function Logo() {
     const handleHomeClick = () => {
@@ -13,13 +14,7 @@ export default function Logo() {
     return (
         <div className="lg:flex">
             <div className="flex gap-2.5 items-center">
-                <Image
-                    src="/logo.png"
-                    width={45}
-                    height={40}
-                    className="hidden md:block"
-                    alt="Screenshots of the dashboard project showing desktop version"
-                />
+                <LogoIcon/>
                 <Link
                     href="/"
                     className="navLink"

@@ -47,22 +47,22 @@ export default function ModalOrder({ isOpen, onClose }) {
                     <>
                         <form onClick={(e) => e.stopPropagation()}>
                             <div className="flex flex-col items-center gap-3.5 mt-[58px]">
-                                <div className="uppercase text-[24px]">заполните данные</div>
+                                <div className="uppercase text-[20px]">заполните данные</div>
                                 <input
                                     type="text"
                                     required
                                     placeholder="введите марку автомобиля"
-                                    className="placeholder:uppercase h-[53px] w-full rounded-[10px] px-[31px] bg-[#F2F2F2]"
+                                    className="placeholder:uppercase text-[15px] h-[53px] w-full rounded-[10px] px-[31px] bg-[#F2F2F2]"
                                     value={car}
                                     onChange={(e) => setCar(e.target.value)}
                                 />
                                 <div className="flex flex-col w-full items-center mt-[19px]">
-                                    <h2 className="uppercase text-[24px]">выберите услугу или<br />расскажите о проблеме сами</h2>
+                                    <h2 className="uppercase text-[20px]">выберите услугу или<br />расскажите о проблеме сами</h2>
                                     <select
                                         value={selectedService}
                                         onChange={handleChange}
                                         required
-                                        className="rounded-[10px] h-[53px] bg-[#F2F2F2] uppercase mt-[14px] pl-[31px] w-full"
+                                        className="rounded-[10px] text-[15px] h-[53px] bg-[#F2F2F2] uppercase mt-[14px] pl-[31px] w-full"
                                     >
                                         <option value="" disabled className="text-[15px]">Выберите услугу</option>
                                         {services.map((service) => (

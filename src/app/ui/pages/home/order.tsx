@@ -35,9 +35,21 @@ export default function Order() {
 
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (event.key === 'Enter' && !isButtonDisabled) {
-                event.preventDefault();
-                onOpen();
+            if (event.key === 'Enter') {
+                const phoneInput = document.getElementById('phone-mask');
+                if (document.activeElement !== phoneInput) {
+                    return;
+                }
+
+                if (!phone.trim()) {
+                    event.preventDefault();
+                    setAlertMessage('Пожалуйста, введите номер телефона.');
+                } else if (isButtonDisabled) {
+                    event.preventDefault();
+                    setAlertMessage('Пожалуйста, введите полный номер телефона.');
+                } else {
+                    onOpen();
+                }
             }
         };
 
@@ -46,7 +58,7 @@ export default function Order() {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [isButtonDisabled, onOpen]);
+    }, [phone, isButtonDisabled, onOpen]);
 
     return (
         <section className="flex flex-col m-auto max-w-[1240px] h-[689px] justify-center">
