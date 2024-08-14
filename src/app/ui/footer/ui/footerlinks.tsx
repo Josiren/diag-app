@@ -1,37 +1,38 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
 
 // Icons
-import GoogleIcon from "../../../../../public/footer/icons/google.svg";
-import MailIcon from "../../../../../public/footer/icons/mail.svg";
-import VkIcon from "../../../../../public/footer/icons/vk.svg";
-import WhatsAppIcon from "../../../../../public/footer/icons/whats_app.svg";
-import TelegramIcon from "../../../../../public/footer/icons/telegram.svg";
+import WhatsAppIcon from "@icons/footer/icons/WhatsAppIcon";
+import MailIcon from "@icons/footer/icons/MailIcon";
+import VkIcon from "@icons/footer/icons/VkIcon";
+import GoogleIcon from "@icons/footer/icons/GoogleIcon";
+import TelegramIcon from "@icons/footer/icons/TelegramIcon";
 
 const links = [
     {
         href: "mailto:diagnostic46a@gmail.com",
-        icon: GoogleIcon,
+        icon: <GoogleIcon className="group-hover:fill-white transition-colors duration-300" />,
         alt: "Google",
     },
     {
         href: "mailto:diagnostic46a@gmail.com",
-        icon: MailIcon,
+        icon: <MailIcon className="group-hover:fill-white transition-colors duration-300" />,
         alt: "Mail",
     },
     {
         href: "https://vk.com/diagnost_46",
-        icon: VkIcon,
+        icon: <VkIcon className="group-hover:fill-white transition-colors duration-300" />,
         alt: "VK",
     },
     {
         href: "https://wa.link/2wx385",
-        icon: WhatsAppIcon,
+        icon: <WhatsAppIcon className="group-hover:fill-white transition-colors duration-300" />,
         alt: "WhatsApp",
     },
     {
         href: "https://t.me/+79950836569",
-        icon: TelegramIcon,
+        icon: <TelegramIcon className="group-hover:fill-white transition-colors duration-300" />,
         alt: "Telegram",
     },
 ];
@@ -44,9 +45,9 @@ export default function FooterLinks() {
                     key={index}
                     href={link.href}
                     target="_blank"
-                    className="w-[25px] flex justify-center items-center h-[25px] rounded-full bg-white"
+                    className="w-[25px] flex justify-center items-center h-[25px] hover:bg-[#102B4E] transition-background duration-300 rounded-full bg-white group"
                 >
-                    <Image src={link.icon} alt={link.alt} width={15} height={15} />
+                    {link.icon}
                 </Link>
             ))}
         </div>
