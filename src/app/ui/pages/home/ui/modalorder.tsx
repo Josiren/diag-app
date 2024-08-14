@@ -30,7 +30,7 @@ export default function ModalOrder({ isOpen, onClose }) {
             motionProps={{
                 variants: {
                     enter: {
-                        y: 0,
+                        y: "0",
                         transition: {
                             duration: 0.6,
                             ease: "easeOut",
@@ -51,7 +51,7 @@ export default function ModalOrder({ isOpen, onClose }) {
                 backdrop: "bg-black/50 backdrop-opacity-40",
             }}
         >
-            <ModalContent className={`m-auto bg-white rounded-[10px] max-w-[871px] w-full min-h-[608px] 
+            <ModalContent className={`bg-white rounded-[10px] max-w-[871px] w-full min-h-[608px] 
                 h-auto text-center px-[86px] flex flex-col text-[#102B4E]`}
             >
                 {(onClose) => (

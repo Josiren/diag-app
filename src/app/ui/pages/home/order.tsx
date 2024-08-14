@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import IMask from 'imask';
 import ModalOrder from "@/app/ui/pages/home/ui/modalorder";
-import { Button, useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@nextui-org/react";
 
 export default function Order() {
     const [phone, setPhone] = useState('');
