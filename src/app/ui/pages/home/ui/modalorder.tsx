@@ -12,17 +12,6 @@ export default function ModalOrder({ isOpen, onClose }) {
         setSelectedService(event.target.value);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (car.trim() === '') {
-            alert('Пожалуйста, заполните поле с маркой автомобиля.');
-            return;
-        }
-
-        setTimeout(onClose, 600);
-    };
-
     return (
         <Modal
             isOpen={isOpen}
@@ -56,11 +45,12 @@ export default function ModalOrder({ isOpen, onClose }) {
             >
                 {(onClose) => (
                     <>
-                        <form onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
+                        <form onClick={(e) => e.stopPropagation()}>
                             <div className="flex flex-col items-center gap-3.5 mt-[58px]">
                                 <div className="uppercase text-[24px]">заполните данные</div>
                                 <input
                                     type="text"
+                                    required
                                     placeholder="введите марку автомобиля"
                                     className="placeholder:uppercase h-[53px] w-full rounded-[10px] px-[31px] bg-[#F2F2F2]"
                                     value={car}
