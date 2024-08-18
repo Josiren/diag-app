@@ -5,36 +5,53 @@ import IMask from 'imask';
 import ModalOrder from "@/app/ui/pages/home/ui/modalorder";
 import { useDisclosure } from "@nextui-org/react";
 
+interface CompiledMask {
+    startsWith: string;
+    maxLength: number;
+}
+
 export default function Order() {
-    const [phone, setPhone] = useState('');
-    const [alertMessage, setAlertMessage] = useState('');
-    const [isPhoneValid, setIsPhoneValid] = useState(false);
-    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [phone, setPhone] = useState<string>('');
+    const [alertMessage, setAlertMessage] = useState<string>('');
+    const [isPhoneValid, setIsPhoneValid] = useState<boolean>(false);
+    const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
-        const phoneInput = document.getElementById('phone-mask');
-        const mask = IMask(phoneInput, {
-            mask: '+{7} (000) 000 - 00 - 00',
-            dispatch: function(appended, dynamicMasked) {
-                const number = (dynamicMasked.value + appended).replace(/\D/g, '');
-                return dynamicMasked.compiledMasks.find(function(m) {
-                    return number.startsWith(m.startsWith) && number.length <= m.maxLength;
-                });
-            },
-        });
+        const phoneInput = document.getElementById('phone-mask') as HTMLInputElement | null;
 
-        mask.on('accept', function() {
-            const isValid = mask.value.replace(/\D/g, '').length === 11;
-            setIsPhoneValid(isValid);
-            setAlertMessage(isValid ? '' : 'Пожалуйста, введите полный номер телефона.');
-            setPhone(mask.value);
-            setIsButtonDisabled(!isValid);
-        });
+        if (phoneInput) {
+            const mask = IMask(phoneInput, {
+                mask: '+{7} (000) 000 - 00 - 00',
+                dispatch: function(appended, dynamicMasked) {
+                    const number = (dynamicMasked.value + appended).replace(/\D/g, '');
+
+                    const compiledMasks = dynamicMasked.compiledMasks as unknown as CompiledMask[];
+
+                    const validMasks = compiledMasks.filter((mask): mask is CompiledMask => {
+                        return (mask as any).startsWith !== undefined && (mask as any).maxLength !== undefined;
+                    });
+
+                    return validMasks.find(function(m) {
+                        return number.startsWith(m.startsWith) && number.length <= m.maxLength;
+                    });
+                },
+            });
+
+            mask.on('accept', function() {
+                const isValid = mask.value.replace(/\D/g, '').length === 11;
+                setIsPhoneValid(isValid);
+                setAlertMessage(isValid ? '' : 'Пожалуйста, введите полный номер телефона.');
+                setPhone(mask.value);
+                setIsButtonDisabled(!isValid);
+            });
+        } else {
+            console.error("Phone input element not found.");
+        }
     }, []);
 
     useEffect(() => {
-        const handleKeyDown = (event) => {
+        const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Enter') {
                 const phoneInput = document.getElementById('phone-mask');
                 if (document.activeElement !== phoneInput) {

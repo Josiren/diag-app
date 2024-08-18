@@ -6,7 +6,7 @@ import Link from "next/link";
 import LogoIcon from "@icons/header/LogoIcon";
 
 export default function Logo() {
-    const handleHomeClick = () => {
+    const handlerHomeClick = () => {
         const navLinks = document.querySelectorAll('.navLink');
         navLinks.forEach(link => link.classList.remove('before:w-full'));
     };
@@ -18,7 +18,7 @@ export default function Logo() {
                 <Link
                     href="/"
                     className="navLink"
-                    onClick={handleHomeClick}
+                    onClick={handlerHomeClick}
                 >
                     <p className={`${montserrat.className} antialiased font-semibold text-2xl`}>
                         Автосервис

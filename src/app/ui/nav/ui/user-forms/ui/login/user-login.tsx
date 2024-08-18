@@ -1,75 +1,70 @@
-import React, { useRef } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Checkbox } from "@nextui-org/react";
+import React, { useState } from "react";
+import { Button, Checkbox, ModalBody, ModalFooter } from "@nextui-org/react";
 import { MailIcon } from "@icons/header/user-forms/MailIcon";
 import { LockIcon } from "@icons/header/user-forms/LockIcon";
-import Link from "next/link";
 import { Input } from "@nextui-org/input";
+import FormsLayout from "@/app/ui/nav/ui/user-forms/layout";
+import { useForm } from "@/app/lib/utils/user-forms/form";
+import UserForgot from "@/app/ui/nav/ui/user-forms/ui/login/forgot/user-forgot";
+import Link from "next/link";
 
-export default function UserLogin({ isOpen, onClose }) {
-    // State for email and password
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const emailRef = useRef(null);
-    const passwordRef = useRef(null);
+interface UserLoginProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
 
-    const validateEmail = (value) =>
-        value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+const UserLogin: React.FC<UserLoginProps> = ({ isOpen, onClose }) => {
+    const {
+        email,
+        setEmail,
+        password,
+        setPassword,
+        emailRef,
+        passwordRef,
+        validateEmail,
+        validatePassword,
+        isInvalid,
+    } = useForm();
 
-    const validatePassword = (password) =>
-        password.match(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-        );
+    const [isForgotOpen, setForgotOpen] = useState(false);
 
-    const isInvalid = React.useMemo(() => {
-        if (email === "" || password === "") return true;
-        return !validateEmail(email) || !validatePassword(password);
-    }, [email, password]);
+    const handleOpenForgot = () => {
+        setForgotOpen(true);
+        onClose();
+    };
 
-    const handleKeyDown = (event, nextField) => {
+    const handleCloseForgot = () => {
+        setForgotOpen(false);
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>, nextField?: React.RefObject<HTMLInputElement>) => {
         if (event.key === "Enter") {
             event.preventDefault();
-            if (nextField) {
-                nextField.current.focus();
-            } else {
-                handleSubmit();
-            }
+            nextField ? nextField.current?.focus() : handleSubmit();
         }
     };
 
-
-    // Handle form submission
     const handleSubmit = () => {
-        if (email === "" || password === "") {
-            console.log("Please fill in all fields.");
+        if (isInvalid) {
+            console.log("Пожалуйста, заполните все поля корректно.");
             return;
         }
-
-        if (!isInvalid) {
-            console.log("Logging in with:", { email, password });
-            onClose();
-        }
-
+        console.log("Вход с:", { email, password });
+        onClose();
     };
 
     return (
-        <Modal
-            isOpen={isOpen}
-            onOpenChange={onClose}
-            classNames={{
-                backdrop: "bg-black/50 backdrop-opacity-40",
-            }}
-        >
-            <ModalContent>
-                <ModalHeader className="flex flex-col gap-1">Вход</ModalHeader>
+        <>
+            <FormsLayout title="Вход" isOpen={isOpen} onClose={onClose}>
                 <ModalBody>
                     <Input
                         autoFocus
                         ref={emailRef}
                         endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
                         placeholder="Введите вашу почту"
-                        value={email}
                         type="email"
                         label="Email"
+                        value={email}
                         errorMessage={
                             <span className="mt-[4px]">
                                 Пожалуйста, введите действительный адрес электронной почты
@@ -89,7 +84,7 @@ export default function UserLogin({ isOpen, onClose }) {
                         value={password}
                         errorMessage={
                             <span className="mt-[4px]">
-                                 Пароль должен состоять не менее чем из 8 символов и содержать как минимум одну строчную букву, одну заглавную букву, одну цифру и один специальный символ.
+                                Пароль должен состоять не менее чем из 8 символов и содержать как минимум одну строчную букву, одну заглавную букву, одну цифру и один специальный символ.
                             </span>
                         }
                         isInvalid={!validatePassword(password) && password !== ""}
@@ -101,29 +96,37 @@ export default function UserLogin({ isOpen, onClose }) {
                         <Checkbox classNames={{ label: "text-small" }}>
                             Запомнить меня
                         </Checkbox>
-                        <Link href="#" className="text-[14px]">
+                        <Link
+                            href="#"
+                            className="text-[14px]"
+                            onClick={handleOpenForgot}
+                        >
                             Забыли пароль?
                         </Link>
                     </div>
                 </ModalBody>
                 <ModalFooter>
                     <Button
-                        className="rounded-[10px] border-[1px] border-[#102B4E] bg-white"
-                        variant="flat"
                         onPress={onClose}
+                        className="rounded-[10px] border-[1px] border-[#102B4E] bg-white"
                     >
                         Закрыть
                     </Button>
                     <Button
-                        className="rounded-[10px] bg-[#1F2937] text-white"
-                        variant="flat"
                         onPress={handleSubmit}
-                        disabled={isInvalid}
+                        className="rounded-[10px] bg-[#1F2937] text-white"
                     >
                         Войти
                     </Button>
                 </ModalFooter>
-            </ModalContent>
-        </Modal>
+            </FormsLayout>
+
+            <UserForgot
+                isOpen={isForgotOpen}
+                onClose={handleCloseForgot}
+            />
+        </>
     );
-}
+};
+
+export default UserLogin;

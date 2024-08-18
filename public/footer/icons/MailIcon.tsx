@@ -1,11 +1,15 @@
 import React from 'react';
 
-const MailIcon = ({ className }) => {
+interface MailIconProps {
+    className?: string;
+}
+
+const MailIcon: React.FC<MailIconProps> = ({ className }) => {
     return (
         <svg
             width="16"
             height="16"
-            viewBox="0 0 10 11"
+            viewBox="0 0 11 11"
             fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path

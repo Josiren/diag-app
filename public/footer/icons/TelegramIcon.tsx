@@ -1,11 +1,13 @@
 import React from 'react';
-
-const TelegramIcon = ({ className }) => {
+interface TelegramIconProps {
+    className?: string;
+}
+const TelegramIcon: React.FC<TelegramIconProps> = ({ className }) => {
     return (
         <svg
             width="16"
             height="16"
-            viewBox="0 0 10 11"
+            viewBox="0 0 11 11"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
         >

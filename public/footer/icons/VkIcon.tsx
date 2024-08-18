@@ -1,11 +1,13 @@
 import React from 'react';
-
-const VkIcon = ({ className }) => {
+interface VkIconProps {
+    className?: string;
+}
+const VkIcon: React.FC<VkIconProps> = ({ className }) => {
     return (
         <svg
             width="16"
             height="16"
-            viewBox="0 0 9 11"
+            viewBox="0 0 10 11"
             fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path

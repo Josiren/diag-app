@@ -1,6 +1,10 @@
 import React from 'react';
 
-const GoogleIcon = ({ className }) => {
+interface GoogleIconProps {
+    className?: string;
+}
+
+const GoogleIcon: React.FC<GoogleIconProps> = ({ className }) => {
     return (
         <svg
             width="16"

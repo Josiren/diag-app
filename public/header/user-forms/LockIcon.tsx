@@ -1,5 +1,8 @@
 import React from "react";
-export const LockIcon = (props) => (
+
+interface LockIconProps extends React.SVGProps<SVGSVGElement> {}
+
+export const LockIcon: React.FC<LockIconProps> = (props) => (
     <svg
         aria-hidden="true"
         fill="none"
